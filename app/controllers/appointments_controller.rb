@@ -1,6 +1,14 @@
 class AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :update, :destroy]
 
+  def get_all
+    doctors = Doctor.all
+    appointments = Appointment.all
+    patients = Patient.all
+    all_data = {patients: patients, doctors: doctors, appointments: appointments}
+    render json: all_data
+  end
+
   # GET /appointments
   def index
     @appointments = Appointment.all
