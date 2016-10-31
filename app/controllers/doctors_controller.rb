@@ -1,6 +1,4 @@
 class DoctorsController < ApplicationController
-  before_action :set_doctor, only: [:show, :update, :destroy]
-
   # GET /doctors
   def index
     doctors = Doctor.all
@@ -10,6 +8,7 @@ class DoctorsController < ApplicationController
 
   # GET /doctors/1
   def show
+    doctor = Doctor.find(params[:id])
     render json: doctor
   end
 
@@ -27,6 +26,7 @@ class DoctorsController < ApplicationController
 
   # PATCH/PUT /doctors/1
   def update
+    doctor = Doctor.find(params[:id])
     if doctor.update(doctor_params)
       render json: doctor
     else
@@ -36,15 +36,13 @@ class DoctorsController < ApplicationController
 
   # DELETE /doctors/1
   def destroy
+    doctor = Doctor.find(params[:id])
     doctor.destroy
+
+    render json: {status: 204}
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_doctor
-      doctor = Doctor.find(params[:id])
-    end
-
     # Only allow a trusted parameter "white list" through.
     def doctor_params
       params.require(:doctor).permit(:name, :specialty, :insurance, :gender)
